@@ -1,0 +1,4 @@
+workflow:
+  project_dir: '/Users/glennceurvels/Documents/Projects/'
+  phpstorm_bin: 'pstorm'
+  pycharm_bin: 'charm'
