@@ -1,8 +1,8 @@
 import os
-from ConfigParser import ConfigParser
-from StringIO import StringIO
+import Repo
 
-class RepoFinder:
+
+class RepoManager:
     """Looks for git repositories in a given directory"""
 
     __repos = {}
@@ -26,21 +26,7 @@ class RepoFinder:
                 self.__scan_dir(path+'/')
 
     def __add_repo(self, dir, path):
-        config_path = path+'/.git/config'
-        if os.path.isfile(config_path) is False:
-            IOError('Path is not a git directory')
-
-        remote = None
-        with open(config_path) as f:
-            c = f.readlines()
-        config_parser = ConfigParser()
-        # This one liner is needed, since git config files are indented with a tab
-        config_parser.readfp(StringIO(''.join([l.lstrip() for l in c])))
-        for section in config_parser.sections():
-            if section.startswith('remote'):
-                remote = config_parser.get(section, 'url')
-
-        self.__repos[self.normalize_repo(dir)] = (path, remote)
+        self.__repos[self.normalize_repo(dir)] = Repo(path)
 
     def contains_repo(self, name):
         try:
@@ -51,6 +37,9 @@ class RepoFinder:
 
     def get_repos(self):
         return self.__repos
+
+    def search_repo(self, name):
+        """todo: implement"""
 
     def get_repo(self, name):
         if self.contains_repo(name):
@@ -66,6 +55,6 @@ class RepoFinder:
         if os.path.isdir(dir) is False:
             return False
         for fname in os.listdir(dir):
-            if fname == '.git':
+            if fname == '.git' and os.path.isdir(dir+fname):
                 return True
         return False

@@ -3,7 +3,7 @@ import os
 from time import strftime
 import yaml
 import sys
-from modules.repofinder import RepoFinder
+from modules.RepoManager import RepoManager
 
 
 def open_repo(project):
@@ -23,7 +23,7 @@ settings = config['workflow']
 projects_root = settings['project_dir']
 routine = None
 config = None
-repos = RepoFinder(projects_root)
+repos = RepoManager(projects_root)
 
 try:
     routine = sys.argv[1]
