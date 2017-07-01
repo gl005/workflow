@@ -38,3 +38,6 @@ class Repo:
 
     def create_branch(self, branch_name):
         """Todo: implement"""
+
+    def create_pr(self):
+        """Todo: implement"""
